@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+node_modules/
+client/node_modules
 /.pnp
 .pnp.js
 
@@ -28,3 +30,7 @@ yarn-error.log*
 .history/
 
 .vscode/
+
+openai-test/
+
+.gitignore
