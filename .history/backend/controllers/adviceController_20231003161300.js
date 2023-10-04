@@ -1,0 +1,31 @@
+const openai = require('openai');
+require('dotenv').config();
+
+const openaiInstance = new openai.OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+exports.getAdvice = async (req, res) => {
+    const userInput = req.body.text;
+
+    try {
+        // OpenAI APIを使用してアドバイスを取得
+        const response = await openaiInstance.ChatCompletion.create({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {"role": "user", "content": userInput}
+            ]
+        });
+
+        // APIからのレスポンスを使用してアドバイスを抽出
+        const advice = response['model']['responses'][0].trim();
+
+        res.json({
+            advice: advice
+        });
+
+    } catch (error) {
+        console.error("Error while fetching advice from OpenAI:", error);
+        res.status(500).json({
+            error: "Error while fetching advice from OpenAI."
+        });
+    }
+};
